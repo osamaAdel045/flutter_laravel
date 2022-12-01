@@ -37,6 +37,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
   Widget build(BuildContext context) {
     ////////////////////////////////////
     // THIS SAMPLE ONLY WORKS ON MACOS.
+
     ////////////////////////////////////
 
     // This builds a menu hierarchy that looks like this:
