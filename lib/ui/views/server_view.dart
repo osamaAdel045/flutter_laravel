@@ -163,7 +163,7 @@ class _ServerViewState extends State<ServerView> {
                     item('Reboot Server', () {
                       showCustomAlertDialog(context, "Are you sure you want to reboot Server ?", () {
                         Navigator.of(context).pop();
-                        model.rebootServer(widget.server!);
+                        // model.rebootServer(widget.server!);
                       });
                     }),
                     item('Open SSH Client', () {}),
