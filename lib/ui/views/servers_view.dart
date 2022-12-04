@@ -14,7 +14,7 @@ class ServersView extends StatefulWidget {
 class _ServersViewState extends State<ServersView> {
   @override
   Widget build(BuildContext context) {
-    return BaseView<ServersModel>(
+    return BaseView<ServersViewModel>(
       onModelReady: (model) => model.getServers(),
       builder: (context, model, child) => model.state == ViewState.Busy
           ? loadingIndicator()
@@ -33,7 +33,7 @@ class _ServersViewState extends State<ServersView> {
 
 class ServerCard extends StatefulWidget {
   final Server? server;
-  final ServersModel? model;
+  final ServersViewModel? model;
 
   ServerCard({this.server, this.model});
 

@@ -16,7 +16,7 @@ class ServerTypes {
     meilisearch,
   ];
 
-  static final hasSites = [app, web, worker];
+  static final hasSites = [app, web, worker,loadBalancer];
   static final hasNoSites = [
     database,
     cache,

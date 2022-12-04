@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_laravel/constants.dart';
+import 'package:flutter_laravel/core/viewmodels/Menu_bar_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/database_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/deployments_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/recipes_model.dart';
@@ -52,8 +53,9 @@ void setupLocator() {
 
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => RecipesModel());
-  locator.registerFactory(() => ServersModel());
+  locator.registerLazySingleton(() => ServersViewModel());
   locator.registerFactory(() => DatabaseViewModel());
   locator.registerFactory(() => DeploymentsViewModel());
   locator.registerFactory(() => SettingsModel());
+  // locator.registerLazySingleton(() => MenuBarViewModel());
 }

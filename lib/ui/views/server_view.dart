@@ -28,7 +28,9 @@ class _ServerViewState extends State<ServerView> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<ServersModel>(
+    print("widget.server!");
+    print(widget.server!.type!);
+    return BaseView<ServersViewModel>(
       onModelReady: (model) async {
         if (ServerTypes.hasSites.contains(widget.server!.type!.toLowerCase())) {
           _sites = (await model.getSites(widget.server))!;
@@ -161,7 +163,7 @@ class _ServerViewState extends State<ServerView> {
                     item('Reboot Server', () {
                       showCustomAlertDialog(context, "Are you sure you want to reboot Server ?", () {
                         Navigator.of(context).pop();
-                        // model.rebootServer(widget.server!);
+                        model.rebootServer(widget.server!);
                       });
                     }),
                     item('Open SSH Client', () {}),
@@ -239,7 +241,7 @@ class _ServerViewState extends State<ServerView> {
     );
   }
 
-  Widget databases(ServersModel serversModel) {
+  Widget databases(ServersViewModel serversModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -307,7 +309,7 @@ class _ServerViewState extends State<ServerView> {
   Widget databaseIem(
       BuildContext context,
     DatabaseModel databaseModel,
-      ServersModel serversModel,
+      ServersViewModel serversModel,
   ) {
     return SizedBox(
       width: double.maxFinite,

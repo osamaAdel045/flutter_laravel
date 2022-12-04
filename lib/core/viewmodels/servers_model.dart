@@ -12,7 +12,7 @@ import 'package:flutter_laravel/core/services/api.dart';
 import '../../locator.dart';
 import 'base_model.dart';
 
-class ServersModel extends BaseModel {
+class ServersViewModel extends BaseModel {
   Api _api = locator<Api>();
   List<Server> _servers = <Server>[];
 

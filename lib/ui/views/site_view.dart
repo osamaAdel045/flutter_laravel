@@ -39,7 +39,7 @@ class SiteViewState extends State<SiteView> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<ServersModel>(
+    return BaseView<ServersViewModel>(
       onModelReady: (model) async {},
       builder: (context, model, child) => Scaffold(
         backgroundColor: Colors.white.withOpacity(0.9),
@@ -162,7 +162,8 @@ class SiteViewState extends State<SiteView> {
                         ),
                       ),
                     ),
-                    item('Deploy Site', () {
+                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                      item('Deploy Site', () {
                       showCustomAlertDialog(context, "Are you sure you want to Deploy this Site ?", () {
                         Navigator.of(context).pop();
                         // model.deploySite(widget.server!.id.toString(), widget.site!.id.toString());
@@ -180,7 +181,8 @@ class SiteViewState extends State<SiteView> {
                           },
                         );
                       }),
-                    item(
+                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                      item(
                       'Edit .env',
                       () async {
                         String? env = await model.getEnv(widget.server!.id.toString(), widget.site!.id.toString());
@@ -190,7 +192,8 @@ class SiteViewState extends State<SiteView> {
                         );
                       },
                     ),
-                    item(
+                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                      item(
                       'Show Deployments',
                       () async {
                         Navigator.pushNamed(
@@ -200,7 +203,8 @@ class SiteViewState extends State<SiteView> {
                         );
                       },
                     ),
-                    item('Execute Command', () {
+                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                      item('Execute Command', () {
                       showExecute(context, model);
                     }),
                     item('SSL/Lets Encrypt', () {
@@ -256,7 +260,7 @@ class SiteViewState extends State<SiteView> {
     );
   }
 
-  showEditor(BuildContext context, String env, ServersModel model, Function(String newText) onPressed) {
+  showEditor(BuildContext context, String env, ServersViewModel model, Function(String newText) onPressed) {
     TextEditingController controller = TextEditingController(text: env);
     final numLines = Observable('\n'.allMatches(env).length + 1);
 
@@ -389,7 +393,7 @@ class SiteViewState extends State<SiteView> {
     showCustomDialog("Install SSL/Lets Encrypt\nWhich Domains", controller, 'Cancel', 'Ok', () {});
   }
 
-  showExecute(BuildContext context, ServersModel model) {
+  showExecute(BuildContext context, ServersViewModel model) {
     final TextEditingController controller = TextEditingController();
 
     showCustomDialog("Execute command", controller, 'Cancel', 'Execute', () {

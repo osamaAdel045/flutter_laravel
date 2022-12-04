@@ -9,7 +9,7 @@ import 'ui/router.dart' as route;
 
 void main() {
   setupLocator();
-  runApp(MyMenuBarApp());
+  runApp(MyMenuBarApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

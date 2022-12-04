@@ -58,11 +58,14 @@ class Api {
 
     var parsed = response.data['servers'] as List<dynamic>;
 
-    for (var server in parsed) {
-      // print('serverserver');
-      // print(server);
+    for (var serverData in parsed) {
+      Server server = Server.fromJson(serverData);
+      List<Site>? sites = await getSites(server.id);
+      server.setSites(sites!);
+      List<DatabaseModel>? databases = await getDatabases(server.id);
+      server.setDatabases(databases!);
       try {
-        servers.add(Server.fromJson(server));
+        servers.add(server);
       } catch (e) {
         print('eeee');
         print(e);
@@ -114,6 +117,8 @@ class Api {
 
   Future<bool> rebootServer(int? id) async {
     var response = await Dio().post('$endpoint/servers/$id/reboot', options: options);
+    print("response");
+    print(response);
     return response.statusCode == 200;
   }
 
