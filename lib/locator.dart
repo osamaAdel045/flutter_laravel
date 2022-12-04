@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_laravel/constants.dart';
+import 'package:flutter_laravel/core/services/server_service_service.dart';
 import 'package:flutter_laravel/core/viewmodels/Menu_bar_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/database_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/deployments_view_model.dart';
@@ -18,6 +19,7 @@ GetIt locator = GetIt.asNewInstance();
 
 void setupLocator() {
   locator.registerLazySingleton(() => AuthenticationService());
+  locator.registerLazySingleton(() => ServerService());
   locator.registerLazySingleton(() => Api());
 
   locator.registerLazySingleton(

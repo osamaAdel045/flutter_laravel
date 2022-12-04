@@ -11,8 +11,8 @@ class Server {
   String? type;
   String? size;
   bool? is_ready;
-  List<Site?>? _sites; //this site variable is used inside the app
-  List<DatabaseModel>? _databases;
+  List<Site?>? _sites= []; //this site variable is used inside the app
+  List<DatabaseModel>? _databases= [];
 
   Server({
     this.id,

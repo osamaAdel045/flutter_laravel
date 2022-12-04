@@ -42,7 +42,12 @@ class Api {
 
     try {
       response = await request.get('$endpoint/user');
+      print("getUserProfile response");
+      print(response);
     } catch (e) {
+      print("getUserProfile response e");
+      print(e);
+
       return null;
     }
     print('response');

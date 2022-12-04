@@ -8,6 +8,8 @@ import 'package:flutter_laravel/core/models/deployment_model.dart';
 import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/models/site.dart';
 import 'package:flutter_laravel/core/services/api.dart';
+import 'package:flutter_laravel/core/services/authentication_service.dart';
+import 'package:flutter_laravel/core/services/server_service_service.dart';
 
 import '../../locator.dart';
 import 'base_model.dart';
@@ -23,6 +25,8 @@ class ServersViewModel extends BaseModel {
 
     setState(ViewState.Busy);
     _servers = (await _api.getServers())!;
+    locator<ServerService>().serverData.add(true);
+    locator<ServerService>().servers = _servers;
     setState(ViewState.Idle);
   }
   void rebootServer(Server? server) async {

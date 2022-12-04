@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_laravel/core/enums/viewsate.dart';
 import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/viewmodels/servers_model.dart';
+import 'package:flutter_laravel/locator.dart';
 import 'package:flutter_laravel/ui/router.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 import 'base_view.dart';
