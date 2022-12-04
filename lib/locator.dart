@@ -53,7 +53,7 @@ void setupLocator() {
 
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => RecipesModel());
-  locator.registerLazySingleton(() => ServersViewModel());
+  locator.registerFactory(() => ServersViewModel());
   locator.registerFactory(() => DatabaseViewModel());
   locator.registerFactory(() => DeploymentsViewModel());
   locator.registerFactory(() => SettingsModel());
