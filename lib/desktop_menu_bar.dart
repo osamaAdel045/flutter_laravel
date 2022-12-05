@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_laravel/constants.dart';
+import 'package:flutter_laravel/core/models/database_model.dart';
 import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/models/site.dart';
 import 'package:flutter_laravel/core/services/authentication_service.dart';
@@ -51,28 +52,19 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                   PlatformMenuItem(
                                     label: 'Reboot Server',
                                     onSelected: () {
-                                      print("OKOKOKOK");
-                                      try{
-                                        showCustomAlertDialog(navigatorKey.currentContext!, "Are you sure you want to reboot Server ?", () {
-                                          Navigator.of(context).pop();
-                                          // model.rebootServer(widget.server!);
-                                        });
-
-                                      }catch(e,s){
-                                        print("OKOKOKOK eeee");
-                                        print(e);
-                                        print(s);
-
-                                      }
+                                      showCustomAlertDialog(navigatorKey.currentContext!, "Are you sure you want to reboot Server ?", () {
+                                        Navigator.of(navigatorKey.currentContext!).pop();
+                                        // locator<ServerService>().rebootServer(server);
+                                      });
                                     },
                                   ),
                                   if (ServerTypes.hasPhp.contains(server.type!.toLowerCase()))
                                     PlatformMenuItem(
                                       label: 'Reboot PHP',
                                       onSelected: () {
-                                        showCustomAlertDialog(context, "Are you sure you want to reboot PHP ?", () {
-                                          Navigator.of(context).pop();
-                                          // model.rebootPHP(widget.server!);
+                                        showCustomAlertDialog(navigatorKey.currentContext!, "Are you sure you want to reboot PHP ?", () {
+                                          Navigator.of(navigatorKey.currentContext!).pop();
+                                          // locator<ServerService>().rebootPHP(server);
                                         });
                                       },
                                     ),
@@ -81,9 +73,9 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                     PlatformMenuItem(
                                       label: 'Reboot MySQL',
                                       onSelected: () {
-                                        showCustomAlertDialog(context, "Are you sure you want to reboot MySQL ?", () {
-                                          Navigator.of(context).pop();
-                                          // model.rebootMysql(widget.server!);
+                                        showCustomAlertDialog(navigatorKey.currentContext!, "Are you sure you want to reboot MySQL ?", () {
+                                          Navigator.of(navigatorKey.currentContext!).pop();
+                                          // locator<ServerService>().rebootMysql(server);
                                         });
                                       },
                                     ),
@@ -91,9 +83,9 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                     PlatformMenuItem(
                                       label: 'Reboot Nginx',
                                       onSelected: () {
-                                        showCustomAlertDialog(context, "Are you sure you want to reboot Nginx ?", () {
-                                          Navigator.of(context).pop();
-                                          // model.rebootNginx(widget.server!);
+                                        showCustomAlertDialog(navigatorKey.currentContext!, "Are you sure you want to reboot Nginx ?", () {
+                                          Navigator.of(navigatorKey.currentContext!).pop();
+                                          // locator<ServerService>().rebootNginx(server);
                                         });
                                       },
                                     ),
@@ -102,9 +94,9 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                     PlatformMenuItem(
                                       label: 'Reboot Postgres',
                                       onSelected: () {
-                                        showCustomAlertDialog(context, "Are you sure you want to reboot Postgres ?", () {
-                                          Navigator.of(context).pop();
-                                          // model.rebootPostgres(widget.server!);
+                                        showCustomAlertDialog(navigatorKey.currentContext!, "Are you sure you want to reboot Postgres ?", () {
+                                          Navigator.of(navigatorKey.currentContext!).pop();
+                                          // locator<ServerService>().rebootPostgres(server);
                                         });
                                       },
                                     ),
@@ -160,6 +152,17 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                             ),
                                         ],
                                       ),
+                                    ),
+                                  ],
+                                ),
+                              if(ServerTypes.hasDatabase.contains(server.type!.toLowerCase()))
+                                PlatformMenuItemGroup(
+                                  members: <MenuItem>[
+                                    ...server.getDatabases!.map(
+                                          (DatabaseModel? e) =>    PlatformMenuItem(
+                                            label: e!.name!,
+                                            onSelected: () {},
+                                          ),,
                                     ),
                                   ],
                                 ),
