@@ -162,7 +162,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                           (DatabaseModel? e) =>    PlatformMenuItem(
                                             label: e!.name!,
                                             onSelected: () {},
-                                          ),,
+                                          ),
                                     ),
                                   ],
                                 ),
