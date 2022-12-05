@@ -603,15 +603,28 @@ class _ServerViewState extends State<ServerView> {
     return showCupertinoDialog(
       context: context,
       builder: (context) => Theme(
-        data: ThemeData.dark(),
+        data: ThemeData.dark()
+            .copyWith(dialogTheme: ThemeData.dark().dialogTheme.copyWith()),
         child: CupertinoAlertDialog(
-          title: Text(title,style: TextStyle(color: color),),
+          title: Text(
+            title,
+            style: TextStyle(color: color),
+          ),
           actions: [
-            CupertinoDialogAction(
-                child: Text("Cancel"),
-                textStyle: TextStyle(fontSize: 14),
-                onPressed: () => Navigator.pop(context)),
-            CupertinoDialogAction(child: Text(okText??'Ok'), onPressed: onPressed, textStyle: TextStyle(fontSize: 14, color: color)),
+            CupertinoButton(
+              child: Text("Cancel", style: TextStyle(fontSize: 14)),
+              color: ThemeData.dark().backgroundColor,
+              padding: EdgeInsets.all(2),
+              onPressed: () => Navigator.pop(context),
+              borderRadius: BorderRadius.zero,
+            ),
+            CupertinoButton(
+              child: Text(okText??'Ok', style: TextStyle(fontSize: 14,color: color)),
+              color: ThemeData.dark().backgroundColor,
+              padding: EdgeInsets.all(2),
+              onPressed: onPressed,
+              borderRadius: BorderRadius.zero,
+            ),
           ],
         ),
       ),
