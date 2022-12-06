@@ -5,6 +5,7 @@ import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/models/site.dart';
 import 'package:flutter_laravel/core/viewmodels/deployments_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/servers_model.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 import 'base_view.dart';
 
@@ -175,8 +176,10 @@ class _ServerCardState extends State<ServerCard> {
                     ),
                   ),
                 ),
-                button(
-                  () async{
+                MainButton(
+                  text: "Show Deployment Log",
+                  margin: const EdgeInsets.all(5.0),
+                  onPressed: () async{
                     String? log = await widget.model!.getDeploymentLog(widget.server!.id.toString(), widget.site!.id.toString(),(widget.deploymentModel!.id!).toString());
                     print("loglog");
                     print(log);
@@ -197,7 +200,6 @@ class _ServerCardState extends State<ServerCard> {
       child: Card(
         color: Colors.green,
         elevation: 0,
-        margin: const EdgeInsets.all(5.0),
         child: InkWell(
           hoverColor: Colors.green,
           onTap: onTap,
@@ -246,14 +248,10 @@ class _ServerCardState extends State<ServerCard> {
                             widget.site!.name!,
                           style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text(
-                            'Done',
-                            style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.w600),
-                          ),
+                        MainButton(
+                          text: "Done",
+                          onPressed: () => Navigator.of(context).pop(),
+                          width: null,
                         ),
                       ],
                     ),

@@ -12,6 +12,7 @@ import 'package:flutter_laravel/core/viewmodels/servers_model.dart';
 import 'package:flutter_laravel/locator.dart';
 import 'package:flutter_laravel/main.dart';
 import 'package:flutter_laravel/server_types.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
 import 'package:flutter_laravel/ui/components/separator.dart';
 import 'package:flutter_laravel/ui/views/base_view.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,24 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                   PlatformMenu(
                     label: 'Servers',
                     menus: <MenuItem>[
+                      PlatformMenuItemGroup(
+                        members: <MenuItem>[
+                          PlatformMenuItem(
+                            label: 'Refresh',
+                            onSelected: () {
+                              showCustomAlertDialog(
+                                  navigatorKey.currentContext!,
+                                  "Are you sure you want to reboot Server ?",
+                                      () {
+                                    Navigator.of(navigatorKey
+                                        .currentContext!)
+                                        .pop();
+                                    // locator<ServerService>().rebootServer(server);
+                                  });
+                            },
+                          ),
+                        ],
+                      ),
                       PlatformMenuItemGroup(
                         members: <MenuItem>[
                           ...locator<ServerService>().servers.map(
@@ -244,6 +263,27 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                               ),
                         ],
                       ),
+                      PlatformMenuItemGroup(
+                        members: <MenuItem>[
+                          PlatformMenuItem(
+                            label: 'Preferences',
+                            onSelected: () {
+                            },
+                          ),
+                        ],
+                      ),
+                      PlatformMenuItemGroup(
+                        members: <MenuItem>[
+                          PlatformMenuItem(
+                            label: 'About',
+                            onSelected: () {},
+                          ),
+                        ],
+                      ),
+                      if (PlatformProvidedMenuItem.hasMenu(
+                          PlatformProvidedMenuItemType.quit))
+                        const PlatformProvidedMenuItem(
+                            type: PlatformProvidedMenuItemType.quit),
                     ],
                   ),
               ],
@@ -280,75 +320,25 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                     fontWeight: FontWeight.w600),
               ),
             ),
-            const SizedBox(
-              height: 10,
+            MainButton(
+              text: "Add Database",
+              onPressed: onAddDatabasePressed,
             ),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                onPressed: onAddDatabasePressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Add Database",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+            const Separator(),
+            MainButton(
+              text: "Add Database User",
+              onPressed: onAddDatabaseUserPressed,
             ),
-            separator(),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                onPressed: onAddDatabaseUserPressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Add Database User",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+            const Separator(),
+            MainButton(
+              text: "Manage Main Database Password",
+              onPressed: onManageDatabasePasswordPressed,
             ),
-            separator(),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                onPressed: onManageDatabasePasswordPressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Manage Main Database Password",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ),
-            separator(),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+            const Separator(),
+            MainButton(
+              text: "Cancel",
+              onPressed: () => Navigator.pop(context),
+              padding: const EdgeInsets.symmetric(vertical: 15),
             ),
           ],
         ),
@@ -417,7 +407,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                 ),
               ),
             ),
-            separator(),
+            const Separator(),
             SizedBox(
               width: double.maxFinite,
               child: TextButton(
@@ -473,4 +463,6 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
       ),
     );
   }
+
+
 }

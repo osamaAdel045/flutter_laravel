@@ -7,7 +7,7 @@ int currentIndex = 0;
 
 class MainView extends StatefulWidget {
   @override
-  _ServersViewState createState() => new _ServersViewState();
+  _ServersViewState createState() => _ServersViewState();
 }
 
 class _ServersViewState extends State<MainView> {
@@ -57,11 +57,11 @@ class _ServersViewState extends State<MainView> {
             label: 'Servers',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.insert_drive_file),
+            icon: Icon(Icons.insert_drive_file),
             label: 'Recipes',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
+            icon: Icon(Icons.settings),
             label: 'Settings',
           ),
         ],

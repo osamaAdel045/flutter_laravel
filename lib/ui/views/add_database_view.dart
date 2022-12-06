@@ -3,6 +3,7 @@ import 'package:flutter_laravel/core/enums/viewsate.dart';
 import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/viewmodels/database_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/login_model.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
 import 'package:flutter_laravel/ui/shared/app_colors.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 import 'package:flutter_laravel/ui/shared/text_styles.dart';
@@ -53,34 +54,24 @@ class _AddDatabaseViewState extends State<AddDatabaseView> {
                     ),
                     model.state == ViewState.Busy
                         ? loadingIndicator()
-                        : Container(
-                            width: double.maxFinite,
+                        : MainButton(
                             margin: const EdgeInsets.all(20),
-                            child: TextButton(
-                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green),overlayColor: MaterialStateProperty.all(Colors.blueGrey),),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'Add',
-                                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              onPressed: () async {
-                                if (widget.isDatabaseUser) {
-                                  // var addDatabase = await model.addDatabase(
-                                  //     (widget.server.id!).toString(), _databaseNameController.text);
-                                  Navigator.of(context).pop(true);
-                                } else {
-                                  // var addDatabase = await model.addDatabaseUser(
-                                  //   (widget.server.id!).toString(),
-                                  //   _databaseNameController.text,
-                                  //   _userNameController.text,
-                                  //   _passwordController.text,
-                                  // );
-                                  Navigator.of(context).pop(true);
-                                }
-                              },
-                            ),
+                            text: "Add",
+                            onPressed: () async {
+                              if (widget.isDatabaseUser) {
+                                // var addDatabase = await model.addDatabase(
+                                //     (widget.server.id!).toString(), _databaseNameController.text);
+                                Navigator.of(context).pop(true);
+                              } else {
+                                // var addDatabase = await model.addDatabaseUser(
+                                //   (widget.server.id!).toString(),
+                                //   _databaseNameController.text,
+                                //   _userNameController.text,
+                                //   _passwordController.text,
+                                // );
+                                Navigator.of(context).pop(true);
+                              }
+                            },
                           ),
                     const SizedBox(
                       height: 25,
@@ -100,9 +91,7 @@ class _AddDatabaseViewState extends State<AddDatabaseView> {
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(color: Colors.grey[100], borderRadius: BorderRadius.circular(10.0)),
       child: TextField(
-          decoration: InputDecoration.collapsed(hintText: hint),
-          controller: controller,
-          obscureText: password),
+          decoration: InputDecoration.collapsed(hintText: hint), controller: controller, obscureText: password),
     );
   }
 }

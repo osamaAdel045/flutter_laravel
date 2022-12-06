@@ -8,6 +8,8 @@ import 'package:flutter_laravel/core/services/authentication_service.dart';
 import 'package:flutter_laravel/core/viewmodels/servers_model.dart';
 import 'package:flutter_laravel/locator.dart';
 import 'package:flutter_laravel/server_types.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
+import 'package:flutter_laravel/ui/components/separator.dart';
 import 'package:flutter_laravel/ui/router.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 
@@ -95,7 +97,7 @@ class _ServerViewState extends State<ServerView> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              separator(),
+                              const Separator(),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -179,31 +181,17 @@ class _ServerViewState extends State<ServerView> {
     );
   }
 
-  Widget separator() {
-    return Container(
-      color: Colors.grey,
-      height: 1,
-    );
-  }
-
-  Widget item(String name, GestureTapCallback? onTap) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Card(
-        elevation: 0,
-        margin: const EdgeInsets.all(5.0),
-        child: InkWell(
-          hoverColor: Colors.white,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Text(
-              name,
-              style: const TextStyle(color: Colors.green, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ),
-        ),
-      ),
+  Widget item(String name, VoidCallback? onPressed) {
+    return MainButton(
+      margin: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(10.0),
+      fontWeight: FontWeight.w500,
+      textAlign: TextAlign.start,
+      text: name,
+      onPressed: onPressed,
+      backgroundColor: Colors.white,
+      textColor: Colors.green,
+      overlayColor: Colors.green.withOpacity(0.5),
     );
   }
 
@@ -292,11 +280,7 @@ class _ServerViewState extends State<ServerView> {
           shrinkWrap: true,
           itemBuilder: (_, i) {
             print(_databaseModels[i]);
-            return databaseIem(
-              context,
-              _databaseModels[i],
-              serversModel
-            );
+            return databaseIem(context, _databaseModels[i], serversModel);
           },
         ),
         const SizedBox(
@@ -307,9 +291,9 @@ class _ServerViewState extends State<ServerView> {
   }
 
   Widget databaseIem(
-      BuildContext context,
+    BuildContext context,
     DatabaseModel databaseModel,
-      ServersViewModel serversModel,
+    ServersViewModel serversModel,
   ) {
     return SizedBox(
       width: double.maxFinite,
@@ -398,41 +382,27 @@ class _ServerViewState extends State<ServerView> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              width: double.maxFinite,
-              margin: const EdgeInsets.all(0),
-              child: TextButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                  overlayColor: MaterialStateProperty.all(Colors.blueGrey),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                onPressed: () async {
-                  showEditDatabaseDialog(
-                    databaseName: databaseModel.name!,
-                    onDeleteDatabasePressed: () {
-                      Navigator.of(context).pop();
-                      showCustomAlertDialog(
-                        context,
-                        "Are you sure you want to delete ${databaseModel.name} ?",
-                        () {
-                          Navigator.of(context).pop();
-                          // serversModel.deleteDatabase((widget.server!.id).toString(),(databaseModel.id).toString());
+            MainButton(
+              text: "Edit",
+              onPressed: () async {
+                showEditDatabaseDialog(
+                  databaseName: databaseModel.name!,
+                  onDeleteDatabasePressed: () {
+                    Navigator.of(context).pop();
+                    showCustomAlertDialog(
+                      context,
+                      "Are you sure you want to delete ${databaseModel.name} ?",
+                          () {
+                        Navigator.of(context).pop();
+                        // serversModel.deleteDatabase((widget.server!.id).toString(),(databaseModel.id).toString());
 
-                        },
-                        color: Colors.red,
-                        okText: "Delete",
-                      );
-                    },
-                  );
-                },
-              ),
+                      },
+                      color: Colors.red,
+                      okText: "Delete",
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -456,70 +426,44 @@ class _ServerViewState extends State<ServerView> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 20),
-              color: Color(0xff1e272c),
+              color: Colors.green,
               child: const Text(
                 "Database Settings",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
-            const SizedBox(
-              height: 10,
+            MainButton(
+              text: "Add Database",
+              fontWeight: FontWeight.w500,
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              onPressed: onAddDatabasePressed,
             ),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                onPressed: onAddDatabasePressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Add Database",
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+            const Separator(),
+            MainButton(
+              text: "Add Database User",
+              fontWeight: FontWeight.w500,
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              onPressed: onAddDatabaseUserPressed,
             ),
-            separator(),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                onPressed: onAddDatabaseUserPressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Add Database User",
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
+            const Separator(),
+            MainButton(
+              text: "Manage Main Database Password",
+              fontWeight: FontWeight.w500,
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              onPressed: onManageDatabasePasswordPressed,
             ),
-            separator(),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                onPressed: onManageDatabasePasswordPressed,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Manage Main Database Password",
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ),
-            separator(),
-            SizedBox(
-              width: double.maxFinite,
-              child: TextButton(
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+            const Separator(),
+            MainButton(
+              text: "Cancel",
+              fontWeight: FontWeight.w500,
+              textColor: Colors.black,
+              backgroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         ),
@@ -579,7 +523,7 @@ class _ServerViewState extends State<ServerView> {
                 ),
               ),
             ),
-            separator(),
+            const Separator(),
             SizedBox(
               width: double.maxFinite,
               child: TextButton(
@@ -599,12 +543,11 @@ class _ServerViewState extends State<ServerView> {
     );
   }
 
-  showCustomAlertDialog(BuildContext context, String title, VoidCallback onPressed, {Color? color,String? okText}) {
+  showCustomAlertDialog(BuildContext context, String title, VoidCallback onPressed, {Color? color, String? okText}) {
     return showCupertinoDialog(
       context: context,
       builder: (context) => Theme(
-        data: ThemeData.dark()
-            .copyWith(dialogTheme: ThemeData.dark().dialogTheme.copyWith()),
+        data: ThemeData.dark().copyWith(dialogTheme: ThemeData.dark().dialogTheme.copyWith()),
         child: CupertinoAlertDialog(
           title: Text(
             title,
@@ -619,7 +562,7 @@ class _ServerViewState extends State<ServerView> {
               borderRadius: BorderRadius.zero,
             ),
             CupertinoButton(
-              child: Text(okText??'Ok', style: TextStyle(fontSize: 14,color: color)),
+              child: Text(okText ?? 'Ok', style: TextStyle(fontSize: 14, color: color)),
               color: ThemeData.dark().backgroundColor,
               padding: EdgeInsets.all(2),
               onPressed: onPressed,

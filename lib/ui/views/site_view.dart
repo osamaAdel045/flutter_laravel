@@ -9,6 +9,8 @@ import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/models/site.dart';
 import 'package:flutter_laravel/core/viewmodels/servers_model.dart';
 import 'package:flutter_laravel/server_types.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
+import 'package:flutter_laravel/ui/components/separator.dart';
 import 'package:flutter_laravel/ui/router.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -93,7 +95,7 @@ class SiteViewState extends State<SiteView> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              separator(),
+                              const Separator(),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -113,7 +115,7 @@ class SiteViewState extends State<SiteView> {
                               const SizedBox(
                                 height: 15,
                               ),
-                              separator(),
+                              const Separator(),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -162,13 +164,13 @@ class SiteViewState extends State<SiteView> {
                         ),
                       ),
                     ),
-                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                    if (ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
                       item('Deploy Site', () {
-                      showCustomAlertDialog(context, "Are you sure you want to Deploy this Site ?", () {
-                        Navigator.of(context).pop();
-                        // model.deploySite(widget.server!.id.toString(), widget.site!.id.toString());
-                      });
-                    }),
+                        showCustomAlertDialog(context, "Are you sure you want to Deploy this Site ?", () {
+                          Navigator.of(context).pop();
+                          // model.deploySite(widget.server!.id.toString(), widget.site!.id.toString());
+                        });
+                      }),
                     if (ServerTypes.hasNginx.contains(widget.server!.type!.toLowerCase()))
                       item('Nginx Configuration', () async {
                         String? nginx = await model.getNginx(widget.server!.id.toString(), widget.site!.id.toString());
@@ -181,32 +183,36 @@ class SiteViewState extends State<SiteView> {
                           },
                         );
                       }),
-                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                    if (ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
                       item(
-                      'Edit .env',
-                      () async {
-                        String? env = await model.getEnv(widget.server!.id.toString(), widget.site!.id.toString());
-                        showEditor(context, env!, model,(newText) {
-                          // model.updateEnv(widget.server!.id.toString(), widget.site!.id.toString(),newText);
+                        'Edit .env',
+                        () async {
+                          String? env = await model.getEnv(widget.server!.id.toString(), widget.site!.id.toString());
+                          showEditor(
+                            context,
+                            env!,
+                            model,
+                            (newText) {
+                              // model.updateEnv(widget.server!.id.toString(), widget.site!.id.toString(),newText);
+                            },
+                          );
                         },
-                        );
-                      },
-                    ),
-                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                      ),
+                    if (ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
                       item(
-                      'Show Deployments',
-                      () async {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.deployments,
-                          arguments: [widget.site, widget.server],
-                        );
-                      },
-                    ),
-                    if(ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
+                        'Show Deployments',
+                        () async {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.deployments,
+                            arguments: [widget.site, widget.server],
+                          );
+                        },
+                      ),
+                    if (ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
                       item('Execute Command', () {
-                      showExecute(context, model);
-                    }),
+                        showExecute(context, model);
+                      }),
                     item('SSL/Lets Encrypt', () {
                       showSSLLetsEncrypt(context, widget.site!.name!);
                     }),
@@ -232,31 +238,17 @@ class SiteViewState extends State<SiteView> {
     );
   }
 
-  Widget separator() {
-    return Container(
-      color: Colors.grey,
-      height: 1,
-    );
-  }
-
-  Widget item(String name, GestureTapCallback? onTap) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Card(
-        elevation: 0,
-        margin: const EdgeInsets.all(5.0),
-        child: InkWell(
-          hoverColor: Colors.white,
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Text(
-              name,
-              style: const TextStyle(color: Colors.green, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ),
-        ),
-      ),
+  Widget item(String name, VoidCallback? onPressed) {
+    return MainButton(
+      margin: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(10.0),
+      fontWeight: FontWeight.w500,
+      textAlign: TextAlign.start,
+      text: name,
+      onPressed: onPressed,
+      backgroundColor: Colors.white,
+      textColor: Colors.green,
+      overlayColor: Colors.green.withOpacity(0.5),
     );
   }
 
@@ -319,61 +311,63 @@ class SiteViewState extends State<SiteView> {
                       child: ConstrainedBox(
                         constraints: BoxConstraints.expand(width: 800),
                         child: ListView(
-                          children: [Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                                  child: ListView.builder(
-                                    itemBuilder: (context, index) => Text(
-                                      (index + 1).toString(),
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                                    child: ListView.builder(
+                                      itemBuilder: (context, index) => Text(
+                                        (index + 1).toString(),
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(color: Colors.grey, fontSize: 14),
+                                      ),
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: numLines.value,
                                     ),
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: numLines.value,
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                flex: 9,
-                                child: TextField(
-                                  autofocus: true,
-                                  controller: controller,
-                                  decoration: const InputDecoration(
-                                    filled: true,
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(0)),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                        )),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(0)),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                        )),
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(0)),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                        )),
+                                Expanded(
+                                  flex: 9,
+                                  child: TextField(
+                                    autofocus: true,
+                                    controller: controller,
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(0)),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          )),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(0)),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          )),
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(0)),
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                          )),
+                                    ),
+                                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
+                                    onChanged: (value) {
+                                      print('object');
+                                      setState(() {
+                                        numLines.value = '\n'.allMatches(value).length + 1;
+                                      });
+                                    },
                                   ),
-                                  style: const TextStyle(color: Colors.white, fontSize: 14),
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: null,
-                                  onChanged: (value) {
-                                    print('object');
-                                    setState(() {
-                                      numLines.value = '\n'.allMatches(value).length + 1;
-                                    });
-                                  },
                                 ),
-                              ),
-                            ],
-                          )],
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ),

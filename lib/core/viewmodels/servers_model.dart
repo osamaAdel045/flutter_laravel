@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 
 import 'package:flutter_laravel/core/enums/viewsate.dart';
@@ -25,8 +26,10 @@ class ServersViewModel extends BaseModel {
 
     setState(ViewState.Busy);
     _servers = (await _api.getServers())!;
-    locator<ServerService>().serverData.add(true);
-    locator<ServerService>().servers = _servers;
+    if (Platform.isMacOS) {
+      locator<ServerService>().serverData.add(true);
+      locator<ServerService>().servers = _servers;
+    }
     setState(ViewState.Idle);
   }
   void rebootServer(Server? server) async {

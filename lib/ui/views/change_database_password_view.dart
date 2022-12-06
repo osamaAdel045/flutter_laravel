@@ -3,6 +3,7 @@ import 'package:flutter_laravel/core/enums/viewsate.dart';
 import 'package:flutter_laravel/core/models/server.dart';
 import 'package:flutter_laravel/core/viewmodels/database_view_model.dart';
 import 'package:flutter_laravel/core/viewmodels/login_model.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
 import 'package:flutter_laravel/ui/shared/app_colors.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 import 'package:flutter_laravel/ui/shared/text_styles.dart';
@@ -50,25 +51,14 @@ class _ChangeDatabasePasswordViewState extends State<ChangeDatabasePasswordView>
                     ),
                     model.state == ViewState.Busy
                         ? loadingIndicator()
-                        : Container(
-                            width: double.maxFinite,
-                            margin: const EdgeInsets.all(20),
-                            child: TextButton(
-                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8),
-                                child: Text(
-                                  'Change',
-                                  style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              onPressed: () async {
-                                // var changePassword = await model.changePassword(
-                                //     (widget.server.id!).toString(), _databaseNameController.text);
-                                Navigator.of(context).pop(true);
-                              },
-                            ),
-                          ),
+                        : MainButton(
+                      text: "Change",
+                      onPressed: () async {
+                        // var changePassword = await model.changePassword(
+                        //     (widget.server.id!).toString(), _databaseNameController.text);
+                        Navigator.of(context).pop(true);
+                      },
+                    ),
                     const SizedBox(
                       height: 25,
                     ),

@@ -12,22 +12,103 @@ class ServersView extends StatefulWidget {
   _ServersViewState createState() => _ServersViewState();
 }
 
-class _ServersViewState extends State<ServersView> {
+class _ServersViewState extends State<ServersView> with SingleTickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(
+      length: 3,
+      vsync: this,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BaseView<ServersViewModel>(
-      onModelReady: (model) => model.getServers(),
-      builder: (context, model, child) => model.state == ViewState.Busy
-          ? loadingIndicator()
-          : ListView(
-              children: List.generate(
-                model.servers.length,
-                (i) => ServerCard(
-                  model: model,
-                  server: model.servers[i],
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showCustomDialog(context: context);
+        },
+      ),
+      body: BaseView<ServersViewModel>(
+        onModelReady: (model) => model.getServers(),
+        builder: (context, model, child) => model.state == ViewState.Busy
+            ? loadingIndicator()
+            : ListView(
+                children: List.generate(
+                  model.servers.length,
+                  (i) => ServerCard(
+                    model: model,
+                    server: model.servers[i],
+                  ),
                 ),
               ),
+      ),
+    );
+  }
+
+  showCustomDialog({
+    required BuildContext context,
+    VoidCallback? onAddDatabasePressed,
+    VoidCallback? onAddDatabaseUserPressed,
+    VoidCallback? onManageDatabasePasswordPressed,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              color: Color(0xff1e272c),
+              child: const Text(
+                "Preferences",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+              ),
             ),
+            TabBar(
+              controller: tabController,
+              unselectedLabelColor: Colors.black,
+              labelColor: Colors.green,
+              overlayColor: MaterialStateProperty.all(Colors.grey.shade300),
+              tabs: const [
+                Tab(
+                  child: Text(
+                    "Api Key",
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "General",
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    "Notifications",
+                  ),
+                  ),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: [
+                  Center(child: Text("Api Key")),
+                  Center(child: Text("General")),
+                  Center(child: Text("Notifications")),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -224,9 +305,9 @@ class _ServerCardState extends State<ServerCard> {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(right: 4.0),
-                          child: new Container(
+                          child: Container(
                             padding: const EdgeInsets.all(6.0),
-                            decoration: new BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.green,
                             ),

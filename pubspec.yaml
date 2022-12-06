@@ -41,6 +41,8 @@ dependencies:
   url_launcher: ^6.1.7
   context_menus: ^1.0.2
   quick_actions: ^0.3.0+1
+  desktop_multi_window: ^0.2.0
+  desktop_lifecycle: ^0.1.0
 
 
 

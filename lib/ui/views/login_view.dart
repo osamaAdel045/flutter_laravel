@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_laravel/core/enums/viewsate.dart';
 import 'package:flutter_laravel/core/viewmodels/login_model.dart';
+import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
 import 'package:flutter_laravel/ui/shared/app_colors.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
 import 'package:flutter_laravel/ui/widgets/login_header.dart';
@@ -38,12 +39,8 @@ class _LoginViewState extends State<LoginView> {
                   LoginHeader(validationMessage: model.errorMessage, controller: _controller),
                   model.state == ViewState.Busy
                       ? loadingIndicator()
-                      : TextButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green),overlayColor: MaterialStateProperty.all(Colors.blueGrey),),
-                          child: const Text(
-                            'Login',
-                            style: const TextStyle(color: Colors.white),
-                          ),
+                      : MainButton(
+                          text: "Login",
                           onPressed: () async {
                             var loginSuccess = await model.login(_controller.text);
                             if (loginSuccess) {
@@ -53,7 +50,7 @@ class _LoginViewState extends State<LoginView> {
                               );
                             }
                           },
-                        )
+                        ),
                 ],
               ),
       ),

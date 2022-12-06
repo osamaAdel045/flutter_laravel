@@ -23,7 +23,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => Api());
 
   locator.registerLazySingleton(
-    () => new Dio()
+    () => Dio()
       ..options.headers = {
         'Content-Type': 'application/json; charset=utf-8',
         'Accept': 'application/json',
