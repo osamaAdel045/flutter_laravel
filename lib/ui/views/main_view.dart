@@ -16,7 +16,7 @@ class _ServersViewState extends State<MainView> {
       case 0:
         return 'Servers';
       case 1:
-        return 'Recepies';
+        return 'Recipes';
       case 2:
         return 'Settings';
     }
@@ -27,7 +27,7 @@ class _ServersViewState extends State<MainView> {
       case 0:
         return ServersView();
       case 1:
-        return RecepiesView();
+        return RecipesView();
       case 2:
         return SettingsView();
     }

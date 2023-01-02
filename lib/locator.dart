@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/services/api.dart';
 import 'core/services/authentication_service.dart';
 import 'core/viewmodels/login_model.dart';
+import 'core/viewmodels/recipe_model.dart';
 
 GetIt locator = GetIt.asNewInstance();
 
@@ -55,6 +56,7 @@ void setupLocator() {
 
   locator.registerFactory(() => LoginModel());
   locator.registerFactory(() => RecipesModel());
+  locator.registerFactory(() => RecipeModel());
   locator.registerFactory(() => ServersViewModel());
   locator.registerFactory(() => DatabaseViewModel());
   locator.registerFactory(() => DeploymentsViewModel());

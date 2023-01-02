@@ -30,15 +30,24 @@ class LoginTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.0),
-      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      height: 50.0,
+      margin: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
       alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-          color: Colors.grey[100], borderRadius: BorderRadius.circular(10.0)),
       child: TextField(
-          decoration: InputDecoration.collapsed(hintText: 'API Token'),
-          controller: controller),
+        controller: controller,
+        maxLines: 5,
+        minLines: 1,
+        keyboardType: TextInputType.multiline,
+        decoration: InputDecoration(
+          hintText: 'API Token',
+          contentPadding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          filled: true,
+          fillColor: Colors.grey[100],
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      ),
     );
   }
 }

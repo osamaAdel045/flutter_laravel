@@ -1,7 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_laravel/core/enums/viewsate.dart';
@@ -13,6 +9,7 @@ import 'package:flutter_laravel/ui/components/buttons/main_button.dart';
 import 'package:flutter_laravel/ui/components/separator.dart';
 import 'package:flutter_laravel/ui/router.dart';
 import 'package:flutter_laravel/ui/shared/loading_indicator.dart';
+import 'package:flutter_laravel/ui/widgets/editor.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -174,28 +171,34 @@ class SiteViewState extends State<SiteView> {
                     if (ServerTypes.hasNginx.contains(widget.server!.type!.toLowerCase()))
                       item('Nginx Configuration', () async {
                         String? nginx = await model.getNginx(widget.server!.id.toString(), widget.site!.id.toString());
-                        showEditor(
-                          context,
-                          nginx!,
-                          model,
-                          (newText) {
-                            // model.updateNginx(widget.server!.id.toString(), widget.site!.id.toString(),newText);
-                          },
-                        );
+                        if (mounted) {
+                          showEditor(
+                            context,
+                            nginx!,
+                            widget.site?.name ?? '',
+                            (newText) {
+                              print(newText);
+                              // model.updateNginx(widget.server!.id.toString(), widget.site!.id.toString(),newText);
+                            },
+                          );
+                        }
                       }),
                     if (ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
                       item(
                         'Edit .env',
                         () async {
                           String? env = await model.getEnv(widget.server!.id.toString(), widget.site!.id.toString());
-                          showEditor(
-                            context,
-                            env!,
-                            model,
-                            (newText) {
-                              // model.updateEnv(widget.server!.id.toString(), widget.site!.id.toString(),newText);
-                            },
-                          );
+                          if (mounted) {
+                            showEditor(
+                              context,
+                              env!,
+                              widget.site?.name ?? '',
+                              (newText) {
+                                print(newText);
+                                // model.updateEnv(widget.server!.id.toString(), widget.site!.id.toString(),newText);
+                              },
+                            );
+                          }
                         },
                       ),
                     if (ServerTypes.loadBalancer != widget.server!.type!.toLowerCase())
@@ -252,134 +255,134 @@ class SiteViewState extends State<SiteView> {
     );
   }
 
-  showEditor(BuildContext context, String env, ServersViewModel model, Function(String newText) onPressed) {
-    TextEditingController controller = TextEditingController(text: env);
-    final numLines = Observable('\n'.allMatches(env).length + 1);
-
-    return showModalBottomSheet(
-      context: context,
-      backgroundColor: const Color(0xff191B1C),
-      isScrollControlled: true,
-      isDismissible: false,
-      enableDrag: false,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) => Scaffold(
-            backgroundColor: Colors.transparent,
-            resizeToAvoidBottomInset: true,
-            body: SafeArea(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    color: Colors.white10,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        Text(
-                          widget.site!.name!,
-                          style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            onPressed.call(controller.text);
-                          },
-                          child: const Text(
-                            'Save',
-                            style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints.expand(width: 800),
-                        child: ListView(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                                    child: ListView.builder(
-                                      itemBuilder: (context, index) => Text(
-                                        (index + 1).toString(),
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(color: Colors.grey, fontSize: 14),
-                                      ),
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: numLines.value,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 9,
-                                  child: TextField(
-                                    autofocus: true,
-                                    controller: controller,
-                                    decoration: const InputDecoration(
-                                      filled: true,
-                                      focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(0)),
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                          )),
-                                      enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(0)),
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                          )),
-                                      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-                                      border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(0)),
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                          )),
-                                    ),
-                                    style: const TextStyle(color: Colors.white, fontSize: 14),
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                    onChanged: (value) {
-                                      print('object');
-                                      setState(() {
-                                        numLines.value = '\n'.allMatches(value).length + 1;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // showEditor(BuildContext context, String env, ServersViewModel model, Function(String newText) onPressed) {
+  //   TextEditingController controller = TextEditingController(text: env);
+  //   final numLines = Observable('\n'.allMatches(env).length + 1);
+  //
+  //   return showModalBottomSheet(
+  //     context: context,
+  //     backgroundColor: const Color(0xff191B1C),
+  //     isScrollControlled: true,
+  //     isDismissible: false,
+  //     enableDrag: false,
+  //     builder: (context) {
+  //       return StatefulBuilder(
+  //         builder: (context, setState) => Scaffold(
+  //           backgroundColor: Colors.transparent,
+  //           resizeToAvoidBottomInset: true,
+  //           body: SafeArea(
+  //             child: Column(
+  //               children: [
+  //                 const SizedBox(
+  //                   height: 20,
+  //                 ),
+  //                 Container(
+  //                   margin: const EdgeInsets.all(8),
+  //                   color: Colors.white10,
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       TextButton(
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                         },
+  //                         child: const Text(
+  //                           'Cancel',
+  //                           style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.w600),
+  //                         ),
+  //                       ),
+  //                       Text(
+  //                         widget.site!.name!,
+  //                         style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
+  //                       ),
+  //                       TextButton(
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                           onPressed.call(controller.text);
+  //                         },
+  //                         child: const Text(
+  //                           'Save',
+  //                           style: TextStyle(fontSize: 16, color: Colors.green, fontWeight: FontWeight.w600),
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 Expanded(
+  //                   child: SingleChildScrollView(
+  //                     scrollDirection: Axis.horizontal,
+  //                     child: ConstrainedBox(
+  //                       constraints: BoxConstraints.expand(width: 800),
+  //                       child: ListView(
+  //                         children: [
+  //                           Row(
+  //                             crossAxisAlignment: CrossAxisAlignment.start,
+  //                             children: [
+  //                               Expanded(
+  //                                 child: Padding(
+  //                                   padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+  //                                   child: ListView.builder(
+  //                                     itemBuilder: (context, index) => Text(
+  //                                       (index + 1).toString(),
+  //                                       textAlign: TextAlign.center,
+  //                                       style: const TextStyle(color: Colors.grey, fontSize: 14),
+  //                                     ),
+  //                                     shrinkWrap: true,
+  //                                     physics: NeverScrollableScrollPhysics(),
+  //                                     itemCount: numLines.value,
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                               Expanded(
+  //                                 flex: 9,
+  //                                 child: TextField(
+  //                                   autofocus: true,
+  //                                   controller: controller,
+  //                                   decoration: const InputDecoration(
+  //                                     filled: true,
+  //                                     focusedBorder: OutlineInputBorder(
+  //                                         borderRadius: BorderRadius.all(Radius.circular(0)),
+  //                                         borderSide: BorderSide(
+  //                                           color: Colors.transparent,
+  //                                         )),
+  //                                     enabledBorder: OutlineInputBorder(
+  //                                         borderRadius: BorderRadius.all(Radius.circular(0)),
+  //                                         borderSide: BorderSide(
+  //                                           color: Colors.transparent,
+  //                                         )),
+  //                                     contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+  //                                     border: OutlineInputBorder(
+  //                                         borderRadius: BorderRadius.all(Radius.circular(0)),
+  //                                         borderSide: BorderSide(
+  //                                           color: Colors.transparent,
+  //                                         )),
+  //                                   ),
+  //                                   style: const TextStyle(color: Colors.white, fontSize: 14),
+  //                                   keyboardType: TextInputType.multiline,
+  //                                   maxLines: null,
+  //                                   onChanged: (value) {
+  //                                     print('object');
+  //                                     setState(() {
+  //                                       numLines.value = '\n'.allMatches(value).length + 1;
+  //                                     });
+  //                                   },
+  //                                 ),
+  //                               ),
+  //                             ],
+  //                           )
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   showSSLLetsEncrypt(BuildContext context, String domain) {
     final TextEditingController controller = TextEditingController(text: domain);

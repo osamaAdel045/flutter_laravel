@@ -31,6 +31,7 @@ class _ServersViewState extends State<ServersView> with SingleTickerProviderStat
         onPressed: () {
           showCustomDialog(context: context);
         },
+        child: const Icon(Icons.add),
       ),
       body: BaseView<ServersViewModel>(
         onModelReady: (model) => model.getServers(),

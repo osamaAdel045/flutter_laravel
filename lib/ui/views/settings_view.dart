@@ -21,22 +21,51 @@ class _SettingsViewState extends State<SettingsView> {
       onModelReady: (model) => model.getSettings(),
       builder: (context, model, child) => model.state == ViewState.Busy
           ? loadingIndicator()
-          : Column(
-              children: <Widget>[
-                Text('Token: ' + model.token!),
-                UIHelper.verticalSpaceSmall(),
-                const SizedBox(height: 10),
-                MainButton(
-                  text: "Logout",
-                  onPressed: () async {
-                    await model.logout();
-                    currentIndex = 0;
-                    Navigator.of(context, rootNavigator: true)
-                        .pushReplacementNamed(Routes.login);
-                  },
+          : SingleChildScrollView(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top:20.0),
+                child: SizedBox(
+                  width: 800,
+                  child: Card(
+                    elevation: 20,
+                    clipBehavior: Clip.antiAlias,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            'Token:-',
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          UIHelper.verticalSpaceSmall(),
+                          SelectableText(model.token!),
+                          UIHelper.verticalSpaceSmall(),
+                          const SizedBox(height: 10),
+                          MainButton(
+                            text: "Logout",
+                            onPressed: () async {
+                              await model.logout();
+                              currentIndex = 0;
+                              if (mounted) {
+                                Navigator.of(context, rootNavigator: true).pushReplacementNamed(Routes.login);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ],
+              ),
             ),
+          ),
     );
   }
 }
