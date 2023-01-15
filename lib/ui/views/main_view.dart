@@ -1,7 +1,14 @@
+import 'dart:async';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_laravel/single_run.dart';
+import 'package:flutter_laravel/ui/show_notification/setup_notifications.dart';
+import 'package:flutter_laravel/ui/show_notification/show_notification.dart';
 import 'package:flutter_laravel/ui/views/recipes_view.dart';
 import 'package:flutter_laravel/ui/views/servers_view.dart';
 import 'package:flutter_laravel/ui/views/settings_view.dart';
+import 'package:http/http.dart';
 
 int currentIndex = 0;
 
@@ -34,13 +41,25 @@ class _ServersViewState extends State<MainView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    SetupFCM.init();
+  }
+
+  @override
+  void dispose() {
+    SetupFCM.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar:  AppBar(
+    return Scaffold(
+      appBar: AppBar(
         automaticallyImplyLeading: false,
-        title:  Text(
+        title: Text(
           "Laravel Forge - $_tabName",
-          style:  TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: _getPage,
@@ -51,7 +70,7 @@ class _ServersViewState extends State<MainView> {
           });
         },
         currentIndex: currentIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Servers',

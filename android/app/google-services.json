@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "606184294241",
+    "project_id": "laravel-forge-ac6ae",
+    "storage_bucket": "laravel-forge-ac6ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606184294241:android:71ff42cbbc25ad31d92720",
+        "android_client_info": {
+          "package_name": "com.example.flutter_laravel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606184294241-jq26uj06qnp95b689dhbjk8talms51ff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_laravel",
+            "certificate_hash": "b9574677e54880efce21edf1fc977391b08832a8"
+          }
+        },
+        {
+          "client_id": "606184294241-jtb0dkh3do9hu7j87d8unr4v1euail60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMt95uZqcgoUr-U3yPlV3yIUUV4l-x5So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606184294241-jtb0dkh3do9hu7j87d8unr4v1euail60.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "606184294241-3vneqcvvb87gavger4e37kpvdpnq9b6p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterLaravel"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

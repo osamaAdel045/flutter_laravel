@@ -43,7 +43,9 @@ dependencies:
   quick_actions: ^0.3.0+1
   desktop_multi_window: ^0.2.0
   desktop_lifecycle: ^0.1.0
-
+  firebase_core: ^2.4.1
+  firebase_messaging: ^14.2.1
+  flutter_local_notifications: ^13.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

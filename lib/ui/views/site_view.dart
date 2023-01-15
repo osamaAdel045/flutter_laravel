@@ -39,7 +39,9 @@ class SiteViewState extends State<SiteView> {
   @override
   Widget build(BuildContext context) {
     return BaseView<ServersViewModel>(
-      onModelReady: (model) async {},
+      onModelReady: (model) async {
+        model.hasNotificationsChannel(widget.server?.id,widget.site?.id);
+      },
       builder: (context, model, child) => Scaffold(
         backgroundColor: Colors.white.withOpacity(0.9),
         appBar: AppBar(
@@ -47,6 +49,12 @@ class SiteViewState extends State<SiteView> {
             widget.site!.name!,
             style: TextStyle(color: Colors.white),
           ),
+          actions: [
+            CupertinoSwitch(
+              value: model.siteNotificationsOn,
+              onChanged: (value) => model.toggleSiteNotification(widget.server?.id,widget.site?.id,value),
+            ),
+          ],
         ),
         body: model.state == ViewState.Busy
             ? loadingIndicator()

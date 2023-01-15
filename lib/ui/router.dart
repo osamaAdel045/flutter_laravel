@@ -12,7 +12,7 @@ import 'package:flutter_laravel/ui/views/server_view.dart';
 import 'package:flutter_laravel/ui/views/site_view.dart';
 
 abstract class Routes {
-  static const String home = "/";
+  static const String home = "/home";
   static const String login = "/login";
   static const String server = "/server";
   static const String recipe = "/recipe";

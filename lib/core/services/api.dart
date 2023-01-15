@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_laravel/constants.dart';
 import 'package:flutter_laravel/core/models/database_model.dart';
 import 'package:flutter_laravel/core/models/deployment_model.dart';
 import 'package:flutter_laravel/core/models/recipe.dart';
@@ -91,7 +93,7 @@ class Api {
     List<DeploymentModel> deployments = <DeploymentModel>[];
     print('getDeployments');
     var response =
-        await Dio().get('$endpoint/servers/${serverId}/sites/${siteId}/deployment-history', options: options);
+        await Dio().get('$endpoint/servers/$serverId/sites/$siteId/deployment-history', options: options);
 
     if (response.statusCode != 200) return null;
     print(response.realUri);
@@ -150,22 +152,22 @@ class Api {
   }
 
   Future<bool> rebootPostgres(int? id) async {
-    var response = await Dio().post('$endpoint//servers/${id}/postgres/reboot', options: options);
+    var response = await Dio().post('$endpoint//servers/$id/postgres/reboot', options: options);
     return response.statusCode == 200;
   }
 
   Future<bool> rebootNginx(int? id) async {
-    var response = await Dio().post('$endpoint//servers/${id}/nginx/reboot', options: options);
+    var response = await Dio().post('$endpoint//servers/$id/nginx/reboot', options: options);
     return response.statusCode == 200;
   }
 
   Future<bool> rebootMysql(int? id) async {
-    var response = await Dio().post('$endpoint//servers/${id}/mysql/reboot', options: options);
+    var response = await Dio().post('$endpoint//servers/$id/mysql/reboot', options: options);
     return response.statusCode == 200;
   }
 
   Future<bool> rebootPHP(int? id) async {
-    var response = await Dio().post('$endpoint//servers/${id}/php/reboot', options: options);
+    var response = await Dio().post('$endpoint//servers/$id/php/reboot', options: options);
     return response.statusCode == 200;
   }
 
@@ -389,5 +391,52 @@ class Api {
     // return response.statusCode == 200;
     await Future.delayed(Duration(seconds: 1));
     return true;
+  }
+
+  Future<bool> hasNotificationsChannel(String? server, String? site) async {
+    try {
+      if (server == null) return false;
+      if (site == null) return false;
+      final response = await Dio().get('$endpoint/servers/$server/sites/$site/webhooks', options: options);
+      print('Api.hasNotificationsChannel : ${response.data}');
+      final webhooks = response.data?['webhooks'];
+      if (webhooks != null && webhooks is List && webhooks.isNotEmpty) {
+            return webhooks.any((e) => e?['url'] == serverNotificationsWebHook);
+          }
+      return false;
+    } catch (e,s) {
+      print(e);
+      print(s);
+      return false;
+    }
+  }
+
+  Future<void> toggleSiteNotification(String? server, String? site, bool value) async {
+    try {
+      if (server == null) return;
+      if (site == null) return;
+
+      if(value){
+        final response = await Dio().post('$endpoint/servers/$server/sites/$site/webhooks', options: options,data: {
+          "url": serverNotificationsWebHook,
+        });
+        print('Api.toggleSiteNotification true : ${response.data}');
+      }else{
+        final response = await Dio().get('$endpoint/servers/$server/sites/$site/webhooks', options: options);
+        print('Api.toggleSiteNotification false : ${response.data}');
+        final webhooks = response.data?['webhooks'];
+        if (webhooks != null && webhooks is List && webhooks.isNotEmpty) {
+           if(webhooks.any((e) => e?['url'] == serverNotificationsWebHook)){
+             final webhook = webhooks.firstWhere((e) => e?['url'] == serverNotificationsWebHook);
+             final response = await Dio().delete('$endpoint/servers/$server/sites/$site/webhooks/${webhook['id']}', options: options);
+             print('Api.toggleSiteNotification2 true : ${response.data}');
+           }
+        }
+      }
+    } catch (e,s) {
+      print(e);
+      print(s);
+      return;
+    }
   }
 }

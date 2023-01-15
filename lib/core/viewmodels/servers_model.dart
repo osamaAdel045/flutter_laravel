@@ -140,4 +140,21 @@ class ServersViewModel extends BaseModel {
     setState(ViewState.Idle);
     return response;
   }
+
+  bool _siteNotificationsOn = false;
+
+  bool get siteNotificationsOn => _siteNotificationsOn;
+
+  Future toggleSiteNotification(int? server,int? site, bool value)async{
+    setState(ViewState.Busy);
+    await _api.toggleSiteNotification(server?.toString(), site?.toString(),value);
+    await hasNotificationsChannel(server, site);
+    setState(ViewState.Idle);
+  }
+
+  Future<void> hasNotificationsChannel(int? server,int? site)async{
+    setState(ViewState.Busy);
+    _siteNotificationsOn = await _api.hasNotificationsChannel(server?.toString(), site?.toString());
+    setState(ViewState.Idle);
+  }
 }
