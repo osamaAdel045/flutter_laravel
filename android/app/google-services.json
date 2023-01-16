@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "606184294241",
+    "firebase_url": "https://laravel-forge-ac6ae-default-rtdb.firebaseio.com",
     "project_id": "laravel-forge-ac6ae",
     "storage_bucket": "laravel-forge-ac6ae.appspot.com"
   },

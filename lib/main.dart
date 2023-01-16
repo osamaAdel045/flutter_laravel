@@ -25,7 +25,7 @@ void main() async {
     await initNotifications();
   }
 
-  await SharedPreferences.getInstance().then((value) => value.clear());
+  // await SharedPreferences.getInstance().then((value) => value.clear());
   setupLocator();
   runApp(MyMenuBarApp(MyApp()));
 }

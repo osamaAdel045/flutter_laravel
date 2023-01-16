@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_laravel/constants.dart';
 import 'package:flutter_laravel/debouncer.dart';
-import 'package:flutter_laravel/single_run.dart';
-import 'package:http/http.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'show_notification.dart';
 import 'supports_firebase.dart';
@@ -13,21 +10,45 @@ import 'supports_firebase.dart';
 abstract class SetupFCM {
   static final Debouncer _debouncer = Debouncer();
 
+  static DatabaseReference get ref => FirebaseDatabase.instance.ref('tokens');
+
   static Future _sendFCMToServer(String? fcmToken) async {
+    if (fcmToken == null) return;
     try {
-      await post(Uri.parse(serverNotificationsFCMApi), body: {
-        'token': fcmToken,
-      }).then((value) => print('RESPONSE ${value.body}'));
+      // await post(Uri.parse(serverNotificationsFCMApi), body: {
+      //   'token': fcmToken,
+      // }).then((value) => print('RESPONSE ${value.body}'));
+      ref.runTransaction((value) {
+        final val = [];
+        if (value != null && value is Iterable && value.isNotEmpty) {
+          val.addAll(value);
+        }
+        if (!val.contains(fcmToken)) {
+          return Transaction.success([...(val), fcmToken]);
+        }
+        return Transaction.abort();
+      });
     } catch (e) {
       print(e);
     }
   }
 
   static Future _removeFCMFromServer(String? fcmToken) async {
+    if (fcmToken == null) return;
     try {
-      await delete(Uri.parse(serverNotificationsFCMApi), body: {
-        'token': fcmToken,
-      }).then((value) => print('RESPONSE ${value.body}'));
+      // await delete(Uri.parse(serverNotificationsFCMApi), body: {
+      //   'token': fcmToken,
+      // }).then((value) => print('RESPONSE ${value.body}'));
+      ref.runTransaction((value) {
+        final val = [];
+        if (value != null && value is Iterable && value.isNotEmpty) {
+          val.addAll(value);
+        }
+        if (val.isNotEmpty) {
+          return Transaction.success([...val.where((e) => e != fcmToken)]);
+        }
+        return Transaction.abort();
+      });
     } catch (e) {
       print(e);
     }
