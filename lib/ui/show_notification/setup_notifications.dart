@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_laravel/debouncer.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_laravel/ui/show_notification/init_notifications.dart';
 
 import 'show_notification.dart';
 import 'supports_firebase.dart';
@@ -63,6 +64,15 @@ abstract class SetupFCM {
   }
 
   static void _initFCM() async {
+    if(flutterLocalNotificationsPlugin==null){
+      await initNotifications();
+    }
+
+    final details = await flutterLocalNotificationsPlugin?.getNotificationAppLaunchDetails();
+    if(details?.notificationResponse != null){
+      onNotificationTapped(details!.notificationResponse!);
+    }
+
     final fcmToken = await FirebaseMessaging.instance.getToken();
 
     print('FCM : $fcmToken');

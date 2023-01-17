@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -28,5 +30,9 @@ Future<void> showNotification(RemoteMessage message) async {
         categoryIdentifier: channelId,
       ),
     ),
+    payload: jsonEncode({
+      'server_id': data['server_id'],
+      'site_id': data['site_id'],
+    }),
   );
 }

@@ -439,4 +439,13 @@ class Api {
       return;
     }
   }
+
+  Future<Site?> getSite(int? serverId,int? siteId) async {
+    var response = await Dio().get('$endpoint/servers/$serverId/sites/$siteId', options: options);
+    print(response);
+
+    if (response.statusCode != 200) return null;
+
+    return Site.fromJson(response.data['site']);
+  }
 }
