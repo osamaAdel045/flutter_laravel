@@ -26,9 +26,7 @@ Future<void> showNotification(RemoteMessage message) async {
         priority: Priority.high,
         groupKey: 'com.android.example.flutter_laravel.NEW_DEPLOYMENT',
       ),
-      iOS: DarwinNotificationDetails(
-        categoryIdentifier: channelId,
-      ),
+      iOS: DarwinNotificationDetails(),
     ),
     payload: jsonEncode({
       'server_id': data['server_id'],

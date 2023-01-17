@@ -21,7 +21,7 @@ Future initNotifications() async {
   await flutterLocalNotificationsPlugin?.initialize(
     const InitializationSettings(
       android: AndroidInitializationSettings('app_icon'),
-      // iOS: DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification),
+      iOS: DarwinInitializationSettings(),
       // macOS: DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification),
       linux: LinuxInitializationSettings(defaultActionName: 'Open notification'),
     ),
@@ -43,7 +43,7 @@ void onNotificationTapped(NotificationResponse details) async {
           Routes.server,
           arguments: server,
         );
-        final site = await api.getSite(serverId,siteId);
+        final site = await api.getSite(serverId, siteId);
         if (site != null) {
           navigatorKey.currentState?.pushNamed(
             Routes.site,
