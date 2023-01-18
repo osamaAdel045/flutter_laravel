@@ -22,8 +22,8 @@ Future initNotifications() async {
     const InitializationSettings(
       android: AndroidInitializationSettings('app_icon'),
       iOS: DarwinInitializationSettings(),
-      // macOS: DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification),
-      linux: LinuxInitializationSettings(defaultActionName: 'Open notification'),
+      // macOS: DarwinInitializationSettings(),
+      // linux: LinuxInitializationSettings(defaultActionName: 'Open notification'),
     ),
     onDidReceiveNotificationResponse: onNotificationTapped,
   );
