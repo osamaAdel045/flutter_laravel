@@ -79,7 +79,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                               Navigator.of(navigatorKey
                                                       .currentContext!)
                                                   .pop();
-                                              // locator<ServerService>().rebootServer(server);
+                                              locator<ServerService>().rebootServer(server);
                                             });
                                           },
                                         ),
@@ -95,7 +95,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                                 Navigator.of(navigatorKey
                                                         .currentContext!)
                                                     .pop();
-                                                // locator<ServerService>().rebootPHP(server);
+                                                locator<ServerService>().rebootPHP(server);
                                               });
                                             },
                                           ),
@@ -114,7 +114,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                                 Navigator.of(navigatorKey
                                                         .currentContext!)
                                                     .pop();
-                                                // locator<ServerService>().rebootMysql(server);
+                                                locator<ServerService>().rebootMysql(server);
                                               });
                                             },
                                           ),
@@ -130,7 +130,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                                 Navigator.of(navigatorKey
                                                         .currentContext!)
                                                     .pop();
-                                                // locator<ServerService>().rebootNginx(server);
+                                                locator<ServerService>().rebootNginx(server);
                                               });
                                             },
                                           ),
@@ -149,7 +149,7 @@ class _MyMenuBarAppState extends State<MyMenuBarApp> {
                                                 Navigator.of(navigatorKey
                                                         .currentContext!)
                                                     .pop();
-                                                // locator<ServerService>().rebootPostgres(server);
+                                                locator<ServerService>().rebootPostgres(server);
                                               });
                                             },
                                           ),

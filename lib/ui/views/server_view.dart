@@ -136,7 +136,7 @@ class _ServerViewState extends State<ServerView> {
                       item('Reboot PHP', () async {
                         showCustomAlertDialog(context, "Are you sure you want to reboot PHP ?", () {
                           Navigator.of(context).pop();
-                          // model.rebootPHP(widget.server!);
+                          model.rebootPHP(widget.server!);
                         });
                       }),
                     if (ServerTypes.hasDatabase.contains(widget.server!.type!.toLowerCase()) &&
@@ -144,14 +144,14 @@ class _ServerViewState extends State<ServerView> {
                       item('Reboot MySQL', () {
                         showCustomAlertDialog(context, "Are you sure you want to reboot MySQL ?", () {
                           Navigator.of(context).pop();
-                          // model.rebootMysql(widget.server!);
+                          model.rebootMysql(widget.server!);
                         });
                       }),
                     if (ServerTypes.hasNginx.contains(widget.server!.type!.toLowerCase()))
                       item('Reboot Nginx', () {
                         showCustomAlertDialog(context, "Are you sure you want to reboot Nginx ?", () {
                           Navigator.of(context).pop();
-                          // model.rebootNginx(widget.server!);
+                          model.rebootNginx(widget.server!);
                         });
                       }),
                     if (ServerTypes.hasDatabase.contains(widget.server!.type!.toLowerCase()) &&
@@ -159,13 +159,13 @@ class _ServerViewState extends State<ServerView> {
                       item('Reboot Postgres', () {
                         showCustomAlertDialog(context, "Are you sure you want to reboot Postgres ?", () {
                           Navigator.of(context).pop();
-                          // model.rebootPostgres(widget.server!);
+                          model.rebootPostgres(widget.server!);
                         });
                       }),
                     item('Reboot Server', () {
                       showCustomAlertDialog(context, "Are you sure you want to reboot Server ?", () {
                         Navigator.of(context).pop();
-                        // model.rebootServer(widget.server!);
+                        model.rebootServer(widget.server!);
                       });
                     }),
                     item('Open SSH Client', () {}),

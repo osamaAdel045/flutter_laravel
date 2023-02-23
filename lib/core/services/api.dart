@@ -335,62 +335,62 @@ class Api {
   }
 
   Future<Recipe?> updateRecipe(int id, String name, String user, String script) async {
-    // var response = await Dio().put(
-    //   '$endpoint/recipes/$id',
-    //   options: options,
-    //   data: {
-    //     "name": name,
-    //     "user": user,
-    //     "script": script,
-    //   },
-    // );
-    // if (response.statusCode != 200) return null;
-    // final data = response.data;
-    await Future.delayed(Duration(seconds: 1));
-    final data = {
-      "recipe": {
-        "id": 1,
-        "name": "Recipe Name",
-        "user": "root",
-        "script": "SCRIPT_CONTENT",
-        "created_at": "2016-12-16 16:24:05"
-      }
-    };
+    var response = await Dio().put(
+      '$endpoint/recipes/$id',
+      options: options,
+      data: {
+        "name": name,
+        "user": user,
+        "script": script,
+      },
+    );
+    if (response.statusCode != 200) return null;
+    final data = response.data;
+    // await Future.delayed(Duration(seconds: 1));
+    // final data = {
+    //   "recipe": {
+    //     "id": 1,
+    //     "name": "Recipe Name",
+    //     "user": "root",
+    //     "script": "SCRIPT_CONTENT",
+    //     "created_at": "2016-12-16 16:24:05"
+    //   }
+    // };
     final json = data['recipe']!;
     return Recipe.fromJson(json);
   }
 
   Future<Recipe?> addRecipe(String name, String user, String script) async {
-    // var response = await Dio().post(
-    //   '$endpoint/recipes',
-    //   options: options,
-    //   data: {
-    //     "name": name,
-    //     "user": user,
-    //     "script": script,
-    //   },
-    // );
-    // if (response.statusCode != 200) return null;
-    // final data = response.data;
-    await Future.delayed(Duration(seconds: 1));
-    final data = {
-      "recipe": {
-        "id": 1,
-        "name": "Recipe Name",
-        "user": "root",
-        "script": "SCRIPT_CONTENT",
-        "created_at": "2016-12-16 16:24:05"
-      }
-    };
+    var response = await Dio().post(
+      '$endpoint/recipes',
+      options: options,
+      data: {
+        "name": name,
+        "user": user,
+        "script": script,
+      },
+    );
+    if (response.statusCode != 200) return null;
+    final data = response.data;
+    // await Future.delayed(Duration(seconds: 1));
+    // final data = {
+    //   "recipe": {
+    //     "id": 1,
+    //     "name": "Recipe Name",
+    //     "user": "root",
+    //     "script": "SCRIPT_CONTENT",
+    //     "created_at": "2016-12-16 16:24:05"
+    //   }
+    // };
     final json = data['recipe']!;
     return Recipe.fromJson(json);
   }
 
   Future<bool> deleteRecipe(int id) async {
-    // var response = await Dio().delete('$endpoint/recipes/$id', options: options);
-    // return response.statusCode == 200;
-    await Future.delayed(Duration(seconds: 1));
-    return true;
+    var response = await Dio().delete('$endpoint/recipes/$id', options: options);
+    return response.statusCode == 200;
+    // await Future.delayed(Duration(seconds: 1));
+    // return true;
   }
 
   Future<bool> hasNotificationsChannel(String? server, String? site) async {

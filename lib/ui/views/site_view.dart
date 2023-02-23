@@ -50,10 +50,14 @@ class SiteViewState extends State<SiteView> {
             style: TextStyle(color: Colors.white),
           ),
           actions: [
-            CupertinoSwitch(
-              value: model.siteNotificationsOn,
-              onChanged: (value) => model.toggleSiteNotification(widget.server?.id,widget.site?.id,value),
+            IconButton(
+              onPressed: () => model.toggleSiteNotification(widget.server?.id,widget.site?.id,!model.siteNotificationsOn),
+              icon: Icon(model.siteNotificationsOn ? Icons.notifications : Icons.notifications_off),
             ),
+            // CupertinoSwitch(
+            //   value: model.siteNotificationsOn,
+            //   onChanged: (value) => model.toggleSiteNotification(widget.server?.id,widget.site?.id,value),
+            // ),
           ],
         ),
         body: model.state == ViewState.Busy
