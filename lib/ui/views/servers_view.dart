@@ -27,12 +27,12 @@ class _ServersViewState extends State<ServersView> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showCustomDialog(context: context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     showCustomDialog(context: context);
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
       body: BaseView<ServersViewModel>(
         onModelReady: (model) => model.getServers(),
         builder: (context, model, child) => model.state == ViewState.Busy
