@@ -1,4 +1,4 @@
-package com.example.flutter_laravel
+package com.algoriza.forge
 
 import io.flutter.embedding.android.FlutterActivity
 

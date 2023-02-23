@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>606184294241-3vneqcvvb87gavger4e37kpvdpnq9b6p.apps.googleusercontent.com</string>
+	<string>606184294241-3d8p6afnhr4iekrfatr1qu8ar4gd336k.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.606184294241-3vneqcvvb87gavger4e37kpvdpnq9b6p</string>
+	<string>com.googleusercontent.apps.606184294241-3d8p6afnhr4iekrfatr1qu8ar4gd336k</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>606184294241-jq26uj06qnp95b689dhbjk8talms51ff.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAdn3g95EjlAYjDR4gSdGtSTGQjuGumcbE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.flutterLaravel</string>
+	<string>com.algoriza.forge</string>
 	<key>PROJECT_ID</key>
 	<string>laravel-forge-ac6ae</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:606184294241:ios:46743339371829f9d92720</string>
+	<string>1:606184294241:ios:476fb7881deb712ad92720</string>
+	<key>DATABASE_URL</key>
+	<string>https://laravel-forge-ac6ae-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

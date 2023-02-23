@@ -68,7 +68,7 @@ class DefaultFirebaseOptions {
     projectId: 'laravel-forge-ac6ae',
     storageBucket: 'laravel-forge-ac6ae.appspot.com',
     iosClientId: '606184294241-3vneqcvvb87gavger4e37kpvdpnq9b6p.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterLaravel',
+    iosBundleId: 'com.algoriza.forge',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -78,6 +78,6 @@ class DefaultFirebaseOptions {
     projectId: 'laravel-forge-ac6ae',
     storageBucket: 'laravel-forge-ac6ae.appspot.com',
     iosClientId: '606184294241-3vneqcvvb87gavger4e37kpvdpnq9b6p.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterLaravel',
+    iosBundleId: 'com.algoriza.forge',
   );
 }

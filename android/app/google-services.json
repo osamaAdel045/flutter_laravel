@@ -8,6 +8,50 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:606184294241:android:154e0f42d6bfe375d92720",
+        "android_client_info": {
+          "package_name": "com.algoriza.forge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606184294241-kj905i08564pte5qqn876uhqp759pukr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.algoriza.forge",
+            "certificate_hash": "b9574677e54880efce21edf1fc977391b08832a8"
+          }
+        },
+        {
+          "client_id": "606184294241-jtb0dkh3do9hu7j87d8unr4v1euail60.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMt95uZqcgoUr-U3yPlV3yIUUV4l-x5So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606184294241-jtb0dkh3do9hu7j87d8unr4v1euail60.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "606184294241-3d8p6afnhr4iekrfatr1qu8ar4gd336k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.algoriza.forge"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:606184294241:android:71ff42cbbc25ad31d92720",
         "android_client_info": {
           "package_name": "com.example.flutter_laravel"
@@ -40,10 +84,10 @@
               "client_type": 3
             },
             {
-              "client_id": "606184294241-3vneqcvvb87gavger4e37kpvdpnq9b6p.apps.googleusercontent.com",
+              "client_id": "606184294241-3d8p6afnhr4iekrfatr1qu8ar4gd336k.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutterLaravel"
+                "bundle_id": "com.algoriza.forge"
               }
             }
           ]
