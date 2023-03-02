@@ -129,204 +129,213 @@ class _ServerCardState extends State<ServerCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(
-              left: 12.0,
-              right: 12.0,
-              top: 8.0,
-              bottom: 8.0,
-            ),
-            color: Color(0xffebeced),
-            child: Row(
-              children: <Widget>[
-                if (_serverRefreshing == false) ...[
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          Routes.server,
+          arguments: widget.server,
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(
+                left: 12.0,
+                right: 12.0,
+                top: 8.0,
+                bottom: 8.0,
+              ),
+              color: Color(0xffebeced),
+              child: Row(
+                children: <Widget>[
+                  if (_serverRefreshing == false) ...[
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text("Active"),
+                    ),
+                  ],
+                  if (_serverRefreshing)
+                    Container(
+                      width: IconTheme.of(context).size,
+                      height: IconTheme.of(context).size,
+                      child: CircularProgressIndicator(),
+                    ),
+                  Expanded(
+                    child: Container(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text("Active"),
-                  ),
+                  PopupMenuButton(
+                    onSelected: (result) async {
+                      switch (result) {
+                        case 0:
+                          setState(() {
+                            _serverRefreshing = true;
+                          });
+                          await widget.model?.refreshServer(widget.server!);
+                          setState(() {
+                            _serverRefreshing = false;
+                          });
+                          break;
+                        case 1:
+                          widget.model?.rebootServer(widget.server);
+                          break;
+                        case 2:
+                          Navigator.pushNamed(
+                            context,
+                            Routes.server,
+                            arguments: widget.server,
+                          );
+                          break;
+                        default:
+                      }
+                    },
+                    itemBuilder: (context) {
+                      return [
+                        PopupMenuItem(
+                          value: 0,
+                          child: Row(
+                            children: const <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: Icon(
+                                  Icons.refresh,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                              Text("Refresh"),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 1,
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Icon(
+                                  Icons.settings_backup_restore,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Text("Reboot"),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 2,
+                          child: Row(
+                            children: const <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: Icon(
+                                  Icons.apps,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              Text("Manage"),
+                            ],
+                          ),
+                        ),
+                      ];
+                    },
+                  )
                 ],
-                if (_serverRefreshing)
-                  Container(
-                    width: IconTheme.of(context).size,
-                    height: IconTheme.of(context).size,
-                    child: CircularProgressIndicator(),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: 12.0,
+                right: 12.0,
+                top: 8.0,
+                bottom: 8.0,
+              ),
+              child: Column(
+                children: <Widget>[
+                  ServerCardInfo(
+                    'Name',
+                    Text(
+                      widget.server!.name!,
+                      style: TextStyle(
+                        color: Color(0Xff424c54),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
-                Expanded(
-                  child: Container(),
-                ),
-                PopupMenuButton(
-                  onSelected: (result) async {
-                    switch (result) {
-                      case 0:
-                        setState(() {
-                          _serverRefreshing = true;
-                        });
-                        await widget.model?.refreshServer(widget.server!);
-                        setState(() {
-                          _serverRefreshing = false;
-                        });
-                        break;
-                      case 1:
-                        widget.model?.rebootServer(widget.server);
-                        break;
-                      case 2:
-                        Navigator.pushNamed(
-                          context,
-                          Routes.server,
-                          arguments: widget.server,
-                        );
-                        break;
-                      default:
-                    }
-                  },
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        value: 0,
-                        child: Row(
-                          children: const <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: Icon(
-                                Icons.refresh,
-                                color: Colors.blueAccent,
-                              ),
-                            ),
-                            Text("Refresh"),
-                          ],
-                        ),
+                  ServerCardInfo(
+                    'Region',
+                    Text(
+                      widget.server!.region!,
+                      style: TextStyle(
+                        color: Color(0Xff424c54),
+                        fontWeight: FontWeight.w400,
                       ),
-                      PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Icon(
-                                Icons.settings_backup_restore,
-                                color: Colors.red,
-                              ),
-                            ),
-                            Text("Reboot"),
-                          ],
-                        ),
+                    ),
+                  ),
+                  ServerCardInfo(
+                    'Size',
+                    Text(
+                      widget.server!.size!,
+                      style: TextStyle(
+                        color: Color(0Xff424c54),
+                        fontWeight: FontWeight.w400,
                       ),
-                      PopupMenuItem(
-                        value: 2,
-                        child: Row(
-                          children: const <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(right: 8.0),
-                              child: Icon(
-                                Icons.apps,
+                    ),
+                  ),
+                  ServerCardInfo(
+                    'PHP Version',
+                    Text(
+                      widget.server!.php_version!,
+                      style: TextStyle(
+                        color: Color(0Xff424c54),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  ServerCardInfo(
+                    "IP Address",
+                    Text(
+                      widget.server!.ip_address!,
+                      style: TextStyle(
+                        color: Color(0Xff424c54),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  ServerCardInfo(
+                      "Connection",
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: Container(
+                              padding: const EdgeInsets.all(6.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
                                 color: Colors.green,
                               ),
                             ),
-                            Text("Manage"),
-                          ],
-                        ),
-                      ),
-                    ];
-                  },
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 12.0,
-              right: 12.0,
-              top: 8.0,
-              bottom: 8.0,
-            ),
-            child: Column(
-              children: <Widget>[
-                ServerCardInfo(
-                  'Name',
-                  Text(
-                    widget.server!.name!,
-                    style: TextStyle(
-                      color: Color(0Xff424c54),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                ServerCardInfo(
-                  'Region',
-                  Text(
-                    widget.server!.region!,
-                    style: TextStyle(
-                      color: Color(0Xff424c54),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                ServerCardInfo(
-                  'Size',
-                  Text(
-                    widget.server!.size!,
-                    style: TextStyle(
-                      color: Color(0Xff424c54),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                ServerCardInfo(
-                  'PHP Version',
-                  Text(
-                    widget.server!.php_version!,
-                    style: TextStyle(
-                      color: Color(0Xff424c54),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                ServerCardInfo(
-                  "IP Address",
-                  Text(
-                    widget.server!.ip_address!,
-                    style: TextStyle(
-                      color: Color(0Xff424c54),
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                ServerCardInfo(
-                    "Connection",
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 4.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(6.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.green,
+                          ),
+                          Text(
+                            "Successful",
+                            style: TextStyle(
+                              color: Color(0Xff424c54),
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
-                        ),
-                        Text(
-                          "Successful",
-                          style: TextStyle(
-                            color: Color(0Xff424c54),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    )),
-              ],
-            ),
-          )
-        ],
+                        ],
+                      )),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

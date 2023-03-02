@@ -32,6 +32,15 @@ class _RecipesViewState extends State<RecipesView> {
                 children: List.generate(
                   model.recipes.length,
                   (i) => ListTile(
+                    onTap: () async {
+                      final recipe = model.recipes[i];
+                      if (mounted) {
+                        final b = await Navigator.of(context).pushNamed(Routes.recipe, arguments: recipe);
+                        if (b == true) {
+                          model.getRecipes();
+                        }
+                      }
+                    },
                     title: Text("Name: ${model.recipes[i].name!}"),
                     subtitle: Text("User: ${model.recipes[i].user!}"),
                     trailing: IconButton(
