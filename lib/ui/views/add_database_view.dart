@@ -58,18 +58,28 @@ class _AddDatabaseViewState extends State<AddDatabaseView> {
                             margin: const EdgeInsets.all(20),
                             text: "Add",
                             onPressed: () async {
-                              if (widget.isDatabaseUser) {
-                                // var addDatabase = await model.addDatabase(
-                                //     (widget.server.id!).toString(), _databaseNameController.text);
-                                Navigator.of(context).pop(true);
+                              if (!widget.isDatabaseUser) {
+                                var shouldGoBack = await model.addDatabase(
+                                  (widget.server.id!).toString(),
+                                  _databaseNameController.text,
+                                );
+                                if (shouldGoBack == true) {
+                                  if (mounted) {
+                                    Navigator.of(context).pop(true);
+                                  }
+                                }
                               } else {
-                                // var addDatabase = await model.addDatabaseUser(
-                                //   (widget.server.id!).toString(),
-                                //   _databaseNameController.text,
-                                //   _userNameController.text,
-                                //   _passwordController.text,
-                                // );
-                                Navigator.of(context).pop(true);
+                                var shouldGoBack = await model.addDatabaseUser(
+                                  (widget.server.id!).toString(),
+                                  _databaseNameController.text,
+                                  _userNameController.text,
+                                  _passwordController.text,
+                                );
+                                if (shouldGoBack == true) {
+                                  if (mounted) {
+                                    Navigator.of(context).pop(true);
+                                  }
+                                }
                               }
                             },
                           ),

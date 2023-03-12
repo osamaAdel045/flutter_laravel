@@ -246,23 +246,38 @@ class _ServerViewState extends State<ServerView> {
               IconButton(
                   onPressed: () {
                     showCustomDialog(
-                      onAddDatabasePressed: () {
+                      onAddDatabasePressed: () async {
                         Navigator.of(context).pop();
-                        Navigator.pushNamed(context, Routes.addDatabase,
-                            arguments: [false, widget.server] // isDatabaseUser value is false
-                            );
+                        final success = await Navigator.pushNamed(
+                          context,
+                          Routes.addDatabase,
+                          arguments: [false, widget.server],
+                        );
+                        if (success == true) {
+                          _databaseModels = (await serversModel.getDatabases(widget.server))!;
+                        }
                       },
-                      onAddDatabaseUserPressed: () {
+                      onAddDatabaseUserPressed: () async {
                         Navigator.of(context).pop();
-                        Navigator.pushNamed(context, Routes.addDatabase,
-                            arguments: [true, widget.server] // isDatabaseUser value is true
-                            );
+                        final success = await Navigator.pushNamed(
+                          context,
+                          Routes.addDatabase,
+                          arguments: [true, widget.server],
+                        );
+                        if (success == true) {
+                          _databaseModels = (await serversModel.getDatabases(widget.server))!;
+                        }
                       },
-                      onManageDatabasePasswordPressed: () {
+                      onManageDatabasePasswordPressed: () async {
                         Navigator.of(context).pop();
-                        Navigator.pushNamed(context, Routes.changeDatabasePassword,
-                            arguments: widget.server // isDatabaseUser value is true
-                            );
+                        final success = await Navigator.pushNamed(
+                          context,
+                          Routes.changeDatabasePassword,
+                          arguments: widget.server,
+                        );
+                        if (success == true) {
+                          _databaseModels = (await serversModel.getDatabases(widget.server))!;
+                        }
                       },
                     );
                   },
@@ -392,10 +407,15 @@ class _ServerViewState extends State<ServerView> {
                     showCustomAlertDialog(
                       context,
                       "Are you sure you want to delete ${databaseModel.name} ?",
-                          () {
+                      () async {
                         Navigator.of(context).pop();
-                        // serversModel.deleteDatabase((widget.server!.id).toString(),(databaseModel.id).toString());
-
+                        final success = await serversModel.deleteDatabase(
+                          (widget.server!.id).toString(),
+                          (databaseModel.id).toString(),
+                        );
+                        if (success == true) {
+                          _databaseModels = (await serversModel.getDatabases(widget.server))!;
+                        }
                       },
                       color: Colors.red,
                       okText: "Delete",

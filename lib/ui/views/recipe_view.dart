@@ -117,9 +117,11 @@ class _RecipeBodyState extends State<_RecipeBody> {
               onPressed: () async {
                 final b = await showConfirmDeleteDialog();
                 if (b == true) {
-                  await widget.model.deleteRecipe(widget.recipe!.id!);
-                  if (mounted) {
-                    Navigator.of(context).pop(true);
+                  final shouldGoBack = await widget.model.deleteRecipe(widget.recipe!.id!);
+                  if (shouldGoBack == true) {
+                    if (mounted) {
+                      Navigator.of(context).pop(true);
+                    }
                   }
                 }
               },
@@ -154,18 +156,21 @@ class _RecipeBodyState extends State<_RecipeBody> {
             IconButton(
               onPressed: () async {
                 if (name != null && user != null && script != null) {
+                  bool shouldGoBack = false;
                   switch (action) {
                     case RecipeAction.edit:
-                      await widget.model.updateRecipe(widget.recipe!.id!, name!, user!, script!);
+                      shouldGoBack = await widget.model.updateRecipe(widget.recipe!.id!, name!, user!, script!);
                       break;
                     case RecipeAction.add:
-                      await widget.model.addRecipe(name!, user!, script!);
+                      shouldGoBack = await widget.model.addRecipe(name!, user!, script!);
                       break;
                     default:
                       break;
                   }
-                  if (mounted) {
-                    Navigator.of(context).pop(true);
+                  if (shouldGoBack == true) {
+                    if (mounted) {
+                      Navigator.of(context).pop(true);
+                    }
                   }
                 }
               },

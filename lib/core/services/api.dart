@@ -279,7 +279,7 @@ class Api {
       options: options,
     );
 
-    return response.statusCode != 200;
+    return response.statusCode == 200;
   }
 
   Future<bool> addDatabase(String serverId, String databaseName) async {
@@ -291,7 +291,7 @@ class Api {
       },
     );
 
-    return response.statusCode != 200;
+    return response.statusCode == 200;
   }
 
   Future<bool> changePassword(String serverId, String password) async {
@@ -303,7 +303,7 @@ class Api {
       },
     );
 
-    return response.statusCode != 200;
+    return response.statusCode == 200;
   }
 
   Future<bool> addDatabaseUser(String serverId, String databaseName, String userName, String password) async {
@@ -317,7 +317,7 @@ class Api {
       },
     );
 
-    return response.statusCode != 200;
+    return response.statusCode == 200;
   }
 
   Future<String?> getDeploymentLog(String serverId, String siteId, String deploymentId) async {

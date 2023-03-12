@@ -52,13 +52,19 @@ class _ChangeDatabasePasswordViewState extends State<ChangeDatabasePasswordView>
                     model.state == ViewState.Busy
                         ? loadingIndicator()
                         : MainButton(
-                      text: "Change",
-                      onPressed: () async {
-                        // var changePassword = await model.changePassword(
-                        //     (widget.server.id!).toString(), _databaseNameController.text);
-                        Navigator.of(context).pop(true);
-                      },
-                    ),
+                            text: "Change",
+                            onPressed: () async {
+                              var shouldGoBack = await model.changePassword(
+                                (widget.server.id!).toString(),
+                                _databaseNameController.text,
+                              );
+                              if (shouldGoBack == true) {
+                                if (mounted) {
+                                  Navigator.of(context).pop(true);
+                                }
+                              }
+                            },
+                          ),
                     const SizedBox(
                       height: 25,
                     ),

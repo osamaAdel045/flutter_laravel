@@ -110,10 +110,21 @@ class ServersViewModel extends BaseModel {
   }
 
   Future refreshServer(Server server) async {
-    var _server = await _api.getServer(server.id);
-    var index = _servers.indexWhere((s) => s.id == server.id);
-    _servers[index] = _server!;
-    notifyListeners();
+    try {
+      final _server = await _api.getServer(server.id);
+      if(_server == null){
+        Snack.show('Failed to refresh server', false);
+      }else{
+        var index = _servers.indexWhere((s) => s.id == server.id);
+        _servers[index] = _server;
+        Snack.show('Refreshed server successfully', true);
+      }
+      notifyListeners();
+    } catch (e,s) {
+      print(e);
+      print(s);
+      Snack.show('Failed to refresh server', false);
+    }
   }
 
   Future<List<Site>?> getSites(Server? server) async {
@@ -170,10 +181,17 @@ class ServersViewModel extends BaseModel {
     return response;
   }
   Future<bool> deleteDatabase(String serverId, String databaseId) async {
-    setState(ViewState.Busy);
-    bool response;
-    response = await _api.deleteDatabase(serverId, databaseId);
-    setState(ViewState.Idle);
+    bool response = false;
+    try {
+      setState(ViewState.Busy);
+      response = await _api.deleteDatabase(serverId, databaseId);
+      setState(ViewState.Idle);
+    } catch (e,s) {
+      print(e);
+      print(s);
+      response = false;
+    }
+    Snack.show(response ? 'Deleted database successfully' : 'Failed to delete database', response);
     return response;
   }
 
